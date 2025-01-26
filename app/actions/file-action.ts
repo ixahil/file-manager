@@ -49,7 +49,7 @@ export const fileUploadAction = async (
 
     // const filePath = path.join(UPLOAD_DIR, safeFileName);
 
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+    // await fs.mkdir(UPLOAD_DIR, { recursive: true });
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);

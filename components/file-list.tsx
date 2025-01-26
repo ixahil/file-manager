@@ -58,7 +58,7 @@ const List = ({ data }: { data: [string, BlobGroup[]][] }) => {
             <div className="flex items-center justify-between mb-2">
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-[#f8f8f2] truncate">
-                  {file.pathname.split("/")[1]}
+                  {file.pathname.substring(file.pathname.indexOf("-") + 1)}
                 </p>
                 <p className="text-xs text-[#6272a4]">
                   {new Date(file.uploadedAt).toLocaleDateString()}
