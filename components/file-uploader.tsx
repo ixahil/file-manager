@@ -56,7 +56,7 @@ const FileUploader = () => {
                 className="cursor-pointer file:cursor-pointer text-muted-foreground file:p-2 file:rounded-lg file:border-0 file:text-xs file:text-muted file:bg-primary"
               />
               <p className="mt-2 text-muted-foreground">
-                Max file size: {"100 MB"}
+                Max file size: {"15 MB"}
               </p>
             </label>
           ) : (

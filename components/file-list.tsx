@@ -1,17 +1,25 @@
-import React from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { deleteFileAction, getFilesAction } from "@/app/actions/file-action";
 import { groupFilesByType } from "@/utils/file-utils";
+import { del, list } from "@vercel/blob";
+import { Trash2 } from "lucide-react";
+import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Trash2 } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+
+type BlobGroup = {
+  url: string;
+  downloadUrl: string;
+  pathname: string;
+  size: number;
+  uploadedAt: Date;
+};
 
 const FileList = async () => {
-  const { files } = await getFilesAction();
-
-  const groupedFiles = groupFilesByType(files as string[]);
+  const response = await list();
+  const groupedFiles = groupFilesByType(response.blobs);
 
   const filesArray = Object.entries(groupedFiles);
+
   return (
     <Card>
       <CardHeader>Uploaded Files</CardHeader>
@@ -31,31 +39,32 @@ const FileList = async () => {
   );
 };
 
-const List = ({ data }: { data: [string, string[]][] }) => {
-  const handleDelete = async (fileName: string) => {
+const List = ({ data }: { data: [string, BlobGroup[]][] }) => {
+  const handleDelete = async (fileUrl: string) => {
     "use server";
-    await deleteFileAction(fileName);
+    await del(fileUrl);
+    revalidatePath("/");
   };
 
   return data.map(([type, typeFiles]) => (
     <div key={type} className="mb-8">
       <h2 className="text-xl font-semibold mb-4 capitalize">{type}s </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {typeFiles.map((file) => (
+        {typeFiles.map((file, idx) => (
           <div
-            key={file}
+            key={file.pathname + idx}
             className="bg-[#282a36] p-4 rounded-lg border border-[#44475a]"
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-[#f8f8f2] truncate">
-                  {file.substring(file.indexOf("-") + 1)}
+                  {file.pathname.split("/")[1]}
                 </p>
                 <p className="text-xs text-[#6272a4]">
-                  {new Date(parseInt(file.split("-")[0])).toLocaleDateString()}
+                  {new Date(file.uploadedAt).toLocaleDateString()}
                 </p>
               </div>
-              <form action={handleDelete.bind(null, file)}>
+              <form action={handleDelete.bind(null, file.url)}>
                 <Button
                   type="submit"
                   className=""
@@ -69,8 +78,8 @@ const List = ({ data }: { data: [string, string[]][] }) => {
             {type === "image" && (
               <div className="relative aspect-video bg-[#1e1f29] rounded-md w-full">
                 <Image
-                  src={`/api/download/${file}`}
-                  alt={file}
+                  src={file.downloadUrl}
+                  alt={file.pathname.split("/")[1]}
                   fill
                   className="rounded-md object-contain"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -81,21 +90,21 @@ const List = ({ data }: { data: [string, string[]][] }) => {
               <video
                 className="w-full rounded-md bg-[#1e1f29]"
                 controls
-                src={`/api/download/${file}`}
+                src={file.downloadUrl}
               />
             )}
             {type === "audio" && (
               <audio
                 className="w-full mt-3"
                 controls
-                src={`/api/download/${file}`}
+                src={file.downloadUrl}
                 preload="none"
               />
             )}
             {(type === "document" || type === "other") && (
               <div className="mt-2">
                 <a
-                  href={`/api/download/${file}`}
+                  href={file.downloadUrl}
                   className="text-[#bd93f9] hover:text-[#ff79c6] text-sm"
                   target="_blank"
                   rel="noopener noreferrer"

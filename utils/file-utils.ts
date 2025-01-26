@@ -76,12 +76,30 @@ export const getFileUrl = (file: File): string => {
   return fileUrl;
 };
 
-export const groupFilesByType = (files: string[]) => {
-  return files.reduce((acc, file) => {
-    const ext = path.extname(file).toLowerCase();
+// export const groupFilesByType = (files: string[]) => {
+//   return files.reduce((acc, file) => {
+//     const ext = path.extname(file).toLowerCase();
+//     const type = getFileType(ext);
+//     if (!acc[type]) acc[type] = [];
+//     acc[type].push(file);
+//     return acc;
+//   }, {} as Record<string, string[]>);
+// };
+
+type Blob = {
+  url: string;
+  downloadUrl: string;
+  pathname: string;
+  size: number;
+  uploadedAt: Date;
+};
+
+export const groupFilesByType = (blobs: Blob[]) => {
+  return blobs.reduce((acc, blob) => {
+    const ext = path.extname(blob.pathname).toLowerCase();
     const type = getFileType(ext);
     if (!acc[type]) acc[type] = [];
-    acc[type].push(file);
+    acc[type].push(blob);
     return acc;
-  }, {} as Record<string, string[]>);
+  }, {} as Record<string, Blob[]>);
 };

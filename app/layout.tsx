@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+const poppins = Poppins({
+  variable: "--font-poppins-sans",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -25,18 +31,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen h-screen max-w-6xl mx-auto my-8">
+          <main className="min-h-screen max-w-6xl mx-auto my-8">
             {children}
           </main>
+          <footer className="w-full bg-card">
+            <div className="max-w-6xl h-10 mx-auto flex justify-between items-center">
+              <Link href={"https://isahil.vercel.app/"}>Sahil Dev</Link>
+              <p>
+                <Link href={"https://isahil.vercel.app/"}>sahil.dev</Link>{" "}
+                &copy; 2024
+              </p>
+            </div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>

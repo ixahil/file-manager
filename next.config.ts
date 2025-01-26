@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: "20mb",
+      bodySizeLimit: "15mb",
     },
   },
   output: "standalone",
@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
+      },
+      {
+        hostname: "ska1uulvzpaiyhln.public.blob.vercel-storage.com",
       },
     ],
   },

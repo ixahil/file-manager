@@ -1,9 +1,10 @@
 "use server";
+import { put } from "@vercel/blob";
 
-import path from "path";
-import { UPLOAD_DIR } from "../../constants/files";
 import fs from "fs/promises";
 import { revalidatePath } from "next/cache";
+import path from "path";
+import { UPLOAD_DIR } from "../../constants/files";
 
 type UploadResult = {
   success: boolean;
@@ -46,21 +47,27 @@ export const fileUploadAction = async (
     const timeStamp = Date.now();
     const safeFileName = `${timeStamp}-${file.name}`;
 
-    const filePath = path.join(UPLOAD_DIR, safeFileName);
+    // const filePath = path.join(UPLOAD_DIR, safeFileName);
 
     await fs.mkdir(UPLOAD_DIR, { recursive: true });
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    await fs.writeFile(filePath, buffer);
+    // Using Vercel Blob storage
+    await put(`uploads/${safeFileName}`, buffer, {
+      access: "public",
+    });
 
-    const stats = await fs.stat(filePath);
+    // Local Upload
+    // await fs.writeFile(filePath, buffer);
 
-    if (stats.size !== file.size) {
-      await fs.unlink(filePath);
-      return { success: false, message: "File Upload verification failed" };
-    }
+    // const stats = await fs.stat(filePath);
+
+    // if (stats.size !== file.size) {
+    //   await fs.unlink(filePath);
+    //   return { success: false, message: "File Upload verification failed" };
+    // }
 
     revalidatePath("/");
 
