@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# File Manager Application
 
-## Getting Started
+## About
 
-First, run the development server:
+This File Manager Application is designed to upload Multipurpose Files Upload and provide a seamless user experience. It utilizes Next.js for its robust frontend capabilities and Blob Storage for File Storage, ensuring a smooth and efficient application.
+## Live Link
+
+Visit live portfolio: [https://file-manager-blush.vercel.app/](https://file-manager-blush.vercel.app/)
+
+![screenshot](https://res.cloudinary.com/diggcdfvp/image/upload/v1737890391/projects/679619a1003082890328/screencapture-file-manager-blush-vercel-app-2025-01-26-16_48_39_lkztnc.png)
+
+## Tech Stack
+
+- **Client:** Next.js 14, React, TailwindCSS
+
+
+
+## Run Locally
+
+1. Clone/Fork and Install the dependency
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/ixahil/file-manager
+
+  npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Start the server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Authors
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [@ixahil](https://github.com/ixahil)
